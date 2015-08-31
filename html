@@ -5,30 +5,32 @@
 </head>
 <body>
 <div id="div1">
+<!-- 將button寫在<form>外面，以免重新觸發業面 -->
 <button id="bt1" onclick="count()" >start</button>
 <button id="bt2" onclick="clearTimeout(myVar)" disabled="disabled">stop</button>
 </div>
 <form name=loading> 
 Now Loading ...<br><br>
-<input type=text name=chart size=30 style="font-family:Arial; font-size: 9pt; color:#000000; border-style:none;"><br>
-<input type=text name=percent size=10 style="font-family:Tahoma; font-size: 10pt; color:#000000; text-align:center; border-style:none;">
+<!-- 設定字體大小，跑條資訊 -->
+<input type="text" name="chart" size="30" style="font-family:Arial; font-size: 9pt; color:#000000; border-style:none;"><br>
+<input type="text" name="percent" size="10" style="font-family:Tahoma; font-size: 10pt; color:#000000; text-align:center; border-style:none;">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script language="JavaScript">
-var bar=0 ;
+var bar=0 ;    /*全域變數*/
 var line="|" ;
 var amount="|" ;
-var myVar;
+var myVar;  /*將setTimeout function包在裡面，要控制star & stop*/
 
 $(document).ready(function(){
   $("#bt2").on("click",function(){
-    console.log("12");
+    // console.log("12");
    /* $("#div1").html('<button id="bt1" onclick="count()">start</button><button id="bt2" onclick="clearTimeout(myVar)"disabled="disabled">stop</button>')*/
-    $("#bt2").attr("disabled", "disabled");
-    $("#bt1").removeAttr("disabled");
+    $("#bt2").attr("disabled", "disabled");   /*只改變屬性attr直接用html attr取代會無法執行*/
+    $("#bt1").removeAttr("disabled");         /* 刪除disables屬性，開啟bt1*/
   });
   
   $("#bt1").on("click",function(){
-    console.log("13");
+    // console.log("13");
     /*$("#div1").replaceWith('<div id="div1">'+'<button id="bt1" onclick="count()" disabled="disabled">start</button>'+'<button id="bt2" onclick="clearTimeout(myVar)">stop</button>'+'</div>')*/
     $("#bt1").attr("disabled", "disabled");
     $("#bt2").removeAttr("disabled");
@@ -49,9 +51,6 @@ function count(){
   amount =amount + line ;
   document.loading.chart.value=amount ;
   document.loading.percent.value=bar+"%" ;
-  
-
-
   if (bar<100) 
   {
     myVar=setTimeout(function(){count()},100);
